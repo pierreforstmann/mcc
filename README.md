@@ -278,5 +278,4 @@ hello, world!
 
 </pre>
 Except spaces and line breaks this is now the original C code.
-[pierre@co7vb01 explaining]$ ^C
-[pierre@co7vb01 explaining]$ 
+
