@@ -1,6 +1,6 @@
 /*
  *
- * tcr.c: very simple CPU and RAM
+ * tcr.c: very simple CPU and RAM performance test
  *
  *
  * Copyright Pierre Forstmann 2018
