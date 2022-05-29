@@ -1,5 +1,4 @@
 # mcc
-misc C code
 
 <h1> Explaining 1st International Obfuscated C Code Contest (1984) anonymous.c</h1>
 
