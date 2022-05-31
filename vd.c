@@ -8,9 +8,9 @@
 int main(int argc, char **argv)
 {
 
-        char year[4];
-        char month[2];
-        char day[2];
+        char year[5];
+        char month[3];
+        char day[3];
         int rc;
 
     if (argc != 2)

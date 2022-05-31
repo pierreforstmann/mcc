@@ -61,10 +61,10 @@ int main(){
 
     if (pid == 0)
     {
-	      current_pid = getpid();
-    	  printf("Child %d: waiting for critical section \n", current_pid);
+        current_pid = getpid();
+	printf("Child %d: waiting for critical section \n", current_pid);
        	sem_wait(sem);
-    	  printf("Child %d: enters in critical section \n", current_pid);
+	printf("Child %d: enters in critical section \n", current_pid);
        	printf("child %d: Enter the data:\n", current_pid);
        	scanf("%d", &data);
         printf("Child %d: new value of data = %d\n", current_pid, data);
@@ -76,7 +76,7 @@ int main(){
     else if (pid > 0)
     {
         //parent process
-        while (pid = waitpid(-1, NULL, 0))
+        while ((pid = waitpid(-1, NULL, 0)))
         {
             if (errno == ECHILD)
             {

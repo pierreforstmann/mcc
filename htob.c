@@ -138,7 +138,7 @@ int main(int argc, char **argv)
 		printf("Usage: htob <hexa. number>\n");
 		exit(1);
 	}
-	if ((argv[1][0] != '0') && (argv[1][1] != 'x'))
+	if ((argv[1][0] != '0') || (argv[1][1] != 'x'))
 	{
 		printf("Usage: htob 0x...\n");
 		test();
