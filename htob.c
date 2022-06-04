@@ -149,7 +149,7 @@ int main(int argc, char **argv)
 	printf("UINT16_MAX= %u \t\t\t= 0x%x\n", UINT16_MAX, UINT16_MAX);
 	printf("UINT32_MAX= %u \t\t\t= 0x%x\n", UINT32_MAX, UINT32_MAX);
 	printf("UINT64_MAX= %lu \t= 0x%lx\n", UINT64_MAX, UINT64_MAX);
-	printf("ULLONG_MAX= %lu \t= 0x%lx\n", ULLONG_MAX, ULLONG_MAX);
+	printf("ULLONG_MAX= %llu \t= 0x%llx\n", ULLONG_MAX, ULLONG_MAX);
 	printf("\n");
 	printf("argv[1] has %lu hexa. digits\n", strlen(argv[1]) - 2);
 		
@@ -157,7 +157,7 @@ int main(int argc, char **argv)
 	u64 = strtoull(argv[1], NULL, 16);
 	if (errno != 0)
 	{
-		perror("strtoll");
+		perror("strtoull");
 		exit(1);
 	}
 	if (u64 <= UINT8_MAX)

@@ -1,4 +1,8 @@
-all:  htob vd tetrad taio tsem tshm
+all:  tpf htob vd tetrad taio tsem tshm
+tpf: tpf.c
+	$(CC) -std=gnu99 -Wall -o $@ $<
+htob: htob.c
+	$(CC) -std=gnu99 -Wall -o $@ $<
 vd: vd.c
 	$(CC) -std=gnu99 -Wall -o $@ $<
 tetrad: tetrad.c
@@ -8,4 +12,4 @@ taio: taio.c
 tsem: tsem.c
 	$(CC) -std=gnu99 -Wall -o $@ $< -lpthread
 clean: 
-	rm -f htob vd tetrad taio tsem tshm
+	rm -f htob vd tetrad taio tsem tshm tpf
