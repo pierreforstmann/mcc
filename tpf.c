@@ -52,107 +52,109 @@
 #define PF_FREEZER_SKIP		0x40000000	/* Freezer should not count it as freezable */
 #define PF_SUSPEND_TASK		0x80000000      /* This thread called freeze_processes() and should not be frozen */
 
-static void check64(uint64_t u)
+/*
+ * kernel 4.18
+ */
+static uint64_t fa[MAX_PF_NR] = {
+	PF_IDLE,
+	PF_EXITING,
+	PF_VCPU,
+	PF_WQ_WORKER,
+	PF_FORKNOEXEC,
+	PF_MCE_PROCESS,
+	PF_SUPERPRIV,
+	PF_DUMPCORE,
+	PF_SIGNALED,
+	PF_MEMALLOC,
+	PF_NPROC_EXCEEDED,
+	PF_USED_MATH,
+	PF_USED_ASYNC,
+	PF_NOFREEZE,
+	PF_FROZEN,
+	PF_KSWAPD,
+	PF_MEMALLOC_NOFS,
+	PF_MEMALLOC_NOIO,
+	PF_LOCAL_THROTTLE,
+	PF_KTHREAD,
+	PF_RANDOMIZE,
+	PF_SWAPWRITE,
+	PF_NO_SETAFFINITY,
+	PF_MCE_EARLY,
+	PF_MEMALLOC_NOCMA,
+	PF_IO_WORKER,
+	PF_MUTEX_TESTER,
+	PF_FREEZER_SKIP,
+	PF_SUSPEND_TASK
+
+};
+
+static char *fda[MAX_PF_NR] =
+{
+	"PF_IDLE",
+	"PF_EXITING",
+	"PF_VCPU",
+	"PF_WQ_WORKER",
+	"PF_FORKNOEXEC",
+	"PF_MCE_PROCESS",
+	"PF_SUPERPRIV",
+	"PF_DUMPCORE",
+	"PF_SIGNALED",
+	"PF_MEMALLOC",
+	"PF_NPROC_EXCEEDED",
+	"PF_USED_MATH",
+	"PF_USED_ASYNC",
+	"PF_NOFREEZE",
+	"PF_FROZEN",
+	"PF_KSWAPD",
+	"PF_MEMALLOC_NOFS",
+	"PF_MEMALLOC_NOIO",
+	"PF_LOCAL_THROTTLE",
+	"PF_KTHREAD",
+	"PF_RANDOMIZE",
+	"PF_SWAPWRITE",
+	"PF_NO_SETAFFINITY",
+	"PF_MCE_EARLY",
+	"PF_MEMALLOC_NOCMA",
+	"PF_IO_WORKER",
+	"PF_MUTEX_TESTER",
+	"PF_FREEZER_SKIP",
+	"PF_SUSPEND_TASK"
+};
+
+static uint8_t fa_count;
+
+/*
+ * decompose process flag and check if given pf_index process flag is part of process flag
+ *
+ */
+static int check_process_flag(uint64_t u, uint8_t pf_index)
 {
 	int i;
 	int last_match_index ;
 	uint64_t match[MAX_PF_NR];
 	uint64_t sum;
-	/*
-	 * kernel 4.18
-	 */
-	static uint64_t fa[MAX_PF_NR] = {
-		PF_IDLE,
-		PF_EXITING,
-		PF_VCPU,
-		PF_WQ_WORKER,
-		PF_FORKNOEXEC,
-		PF_MCE_PROCESS,
-		PF_SUPERPRIV,
-		PF_DUMPCORE,
-		PF_SIGNALED,
-		PF_MEMALLOC,
-		PF_NPROC_EXCEEDED,
-		PF_USED_MATH,
-		PF_USED_ASYNC,
-		PF_NOFREEZE,
-		PF_FROZEN,
-		PF_KSWAPD,
-		PF_MEMALLOC_NOFS,
-		PF_MEMALLOC_NOIO,
-		PF_LOCAL_THROTTLE,
-		PF_KTHREAD,
-		PF_RANDOMIZE,
-		PF_SWAPWRITE,
-		PF_NO_SETAFFINITY,
-		PF_MCE_EARLY,
-		PF_MEMALLOC_NOCMA,
-		PF_IO_WORKER,
-		PF_MUTEX_TESTER,
-		PF_FREEZER_SKIP,
-		PF_SUSPEND_TASK
-
-	};
-
-	static char *fda[MAX_PF_NR] =
-	{
-		"PF_IDLE",
-		"PF_EXITING",
-		"PF_VCPU",
-		"PF_WQ_WORKER",
-		"PF_FORKNOEXEC",
-		"PF_MCE_PROCESS",
-		"PF_SUPERPRIV",
-		"PF_DUMPCORE",
-		"PF_SIGNALED",
-		"PF_MEMALLOC",
-		"PF_NPROC_EXCEEDED",
-		"PF_USED_MATH",
-		"PF_USED_ASYNC",
-		"PF_NOFREEZE",
-		"PF_FROZEN",
-		"PF_KSWAPD",
-		"PF_MEMALLOC_NOFS",
-		"PF_MEMALLOC_NOIO",
-		"PF_LOCAL_THROTTLE",
-		"PF_KTHREAD",
-		"PF_RANDOMIZE",
-		"PF_SWAPWRITE",
-		"PF_NO_SETAFFINITY",
-		"PF_MCE_EARLY",
-		"PF_MEMALLOC_NOCMA",
-		"PF_IO_WORKER",
-		"PF_MUTEX_TESTER",
-		"PF_FREEZER_SKIP",
-		"PF_SUSPEND_TASK"
-	};
-
-	uint8_t fa_count;
+	int	 found;
 
 	printf("\n");
-	printf("input = %lu\n", u);
 	sum = 0;
 	last_match_index = 0;
 	for (i = 0; i < MAX_PF_NR; i++)
 		match[i] = 0;
-	for (i=0; i< MAX_PF_NR; i++)
-		if (fa[i] == 0)
-			break;
-	fa_count = i - 1;
 
 	for (i = 0; i < fa_count; i++)
 		if ((fa[i] & u) == fa[i])
 		{
 			match[i] = 1;	
 			last_match_index = i;
-		}		
+		}
+	found = 0;	
 
 	for (i = 0; i < fa_count; i++)
 		if (match[i] == 1)
 			sum += fa[i];
 	if (sum == u)
 	{
-		printf("OK: %lu = ", u);
+		printf("%lu = ", u);
 		for (i = 0; i < fa_count; i++)
 		{
 			if (match[i] == 1)
@@ -161,8 +163,14 @@ static void check64(uint64_t u)
 				if (i != last_match_index)
 					printf(" + ");
 			}
+			if (pf_index == i && match[i] == 1)
+			{
+				found = 1;
+			}
 		}	
 		printf("\n");
+		if (found == 1)
+			printf("%s found in process flag \n", fda[pf_index]);
 	}
 	else	 
 	{
@@ -178,15 +186,19 @@ static void check64(uint64_t u)
 		}
 		printf("... %lu \n", sum);
 	}
+
+	return found;
 }
 
 int main(int argc, char **argv)
 {
 	uint64_t u64;
+	uint8_t	i;
+	int	found = 0;
 
-	if (argc != 2)
+	if (argc != 3)
 	{
-		printf("Usage: pf <process flag>\n");
+		printf("Usage: pf <process flag> <process flag desc> \n");
 		exit(1);
 	}
 	errno = 0;
@@ -196,7 +208,34 @@ int main(int argc, char **argv)
 		perror("strtol");
 		exit(1);
 	}
-	check64(u64);
+
+	for (i=0; i< MAX_PF_NR; i++)
+		if (fa[i] == 0)
+			break;
+	fa_count = i - 1;
+
+	/*
+	 * verify specific process flag
+	 */
+	if (argc == 3)
+	{	
+		for (i = 0 ; i < fa_count; i++)
+			if (strcmp(fda[i], argv[2]) ==  0)
+			{
+				found = 1;
+				break;
+			}
+	}
+	if (found == 0)
+	{
+		printf("invalid process flag %s \n", argv[2]);
+		exit (1);
+	}
+
+	if (check_process_flag(u64, i) == 1)
+		printf("%s found \n", argv[2]);
+	else
+		printf("%s not found \n", argv[2]);
 
 }
 
