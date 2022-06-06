@@ -11,5 +11,7 @@ taio: taio.c
 	$(CC) -std=gnu99 -Wall -o $@ $< -laio
 tsem: tsem.c
 	$(CC) -std=gnu99 -Wall -o $@ $< -lpthread
+tshm: tshm.c
+	$(CC) -std=gnu99 -Wall -o $@ $< 
 clean: 
 	rm -f htob vd tetrad taio tsem tshm tpf

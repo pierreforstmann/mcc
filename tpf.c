@@ -16,7 +16,7 @@
 #include <errno.h>
 #include <limits.h>
 
-#define MAX_PF			100
+#define MAX_PF_NR		50	
 
 /*
  * from <linux/sched.h>
@@ -56,12 +56,12 @@ static void check64(uint64_t u)
 {
 	int i;
 	int last_match_index ;
-	uint64_t match[MAX_PF];
+	uint64_t match[MAX_PF_NR];
 	uint64_t sum;
 	/*
 	 * kernel 4.18
 	 */
-	static uint64_t fa[] = {
+	static uint64_t fa[MAX_PF_NR] = {
 		PF_IDLE,
 		PF_EXITING,
 		PF_VCPU,
@@ -94,30 +94,70 @@ static void check64(uint64_t u)
 
 	};
 
+	static char *fda[MAX_PF_NR] =
+	{
+		"PF_IDLE",
+		"PF_EXITING",
+		"PF_VCPU",
+		"PF_WQ_WORKER",
+		"PF_FORKNOEXEC",
+		"PF_MCE_PROCESS",
+		"PF_SUPERPRIV",
+		"PF_DUMPCORE",
+		"PF_SIGNALED",
+		"PF_MEMALLOC",
+		"PF_NPROC_EXCEEDED",
+		"PF_USED_MATH",
+		"PF_USED_ASYNC",
+		"PF_NOFREEZE",
+		"PF_FROZEN",
+		"PF_KSWAPD",
+		"PF_MEMALLOC_NOFS",
+		"PF_MEMALLOC_NOIO",
+		"PF_LOCAL_THROTTLE",
+		"PF_KTHREAD",
+		"PF_RANDOMIZE",
+		"PF_SWAPWRITE",
+		"PF_NO_SETAFFINITY",
+		"PF_MCE_EARLY",
+		"PF_MEMALLOC_NOCMA",
+		"PF_IO_WORKER",
+		"PF_MUTEX_TESTER",
+		"PF_FREEZER_SKIP",
+		"PF_SUSPEND_TASK"
+	};
+
+	uint8_t fa_count;
+
 	printf("\n");
 	printf("input = %lu\n", u);
 	sum = 0;
 	last_match_index = 0;
-	for (i = 0; i < MAX_PF; i++)
+	for (i = 0; i < MAX_PF_NR; i++)
 		match[i] = 0;
-	for (i = 0; i < sizeof(fa)/sizeof(uint64_t); i++)
+	for (i=0; i< MAX_PF_NR; i++)
+		if (fa[i] == 0)
+			break;
+	fa_count = i - 1;
+
+	for (i = 0; i < fa_count; i++)
 		if ((fa[i] & u) == fa[i])
 		{
 			match[i] = 1;	
 			last_match_index = i;
 		}		
 
-	for (i = 0; i < sizeof(fa)/sizeof(uint64_t); i++)
+	for (i = 0; i < fa_count; i++)
 		if (match[i] == 1)
 			sum += fa[i];
 	if (sum == u)
 	{
 		printf("OK: %lu = ", u);
-		for (i = 0; i < sizeof(fa)/sizeof(uint64_t); i++)
+		for (i = 0; i < fa_count; i++)
 		{
 			if (match[i] == 1)
 			{
-				printf(" %lu ", fa[i]);
+				printf(" %lu (%s)", fa[i], fda[i]);
 				if (i != last_match_index)
 					printf(" + ");
 			}
@@ -127,7 +167,7 @@ static void check64(uint64_t u)
 	else	 
 	{
 		printf("ERROR: %lu <> ", u);
-		for (i = 0; i < sizeof(fa)/sizeof(uint64_t); i++)
+		for (i = 0; i < fa_count; i++)
 		{
 			if (match[i] == 1)
 			{
