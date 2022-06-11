@@ -196,8 +196,11 @@ int main(int argc, char **argv)
 	if (argc != 3)
 	{
 		printf("Usage: tpf <numeric process flag> <process flag symbol> \n");
+		printf("\n");
 		printf("Decomposes numeric process flag in sum of process flag symbols (see /usr/src/linux-headers-xxx/include/linux/sched.h) \n"); 
- 		printf("example: tpf 69238880 PF_KTHREAD \n");
+		printf("and checks whether given process flag symbol belongs to numeric process flag.\n");
+		printf("\n");
+ 		printf("Example: tpf 69238880 PF_KTHREAD \n");
 		printf("69238880 =  32 (PF_WQ_WORKER) +  64 (PF_FORKNOEXEC) +  32768 (PF_NOFREEZE) +  2097152 (PF_KTHREAD) +  67108864 (PF_NO_SETAFFINITY)\n");		printf("PF_KTHREAD found in process flag \n");
 
 		exit(1);
