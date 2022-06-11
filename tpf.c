@@ -1,7 +1,7 @@
 /*
  * tpf.c
  *
- * translate process flag
+ * translate Linux process flag
  *
  */
 #include <stdio.h>
@@ -19,7 +19,7 @@
 #define MAX_PF_NR		50	
 
 /*
- * from <linux/sched.h>
+ * from <linux/sched.h> kernel 4.18
  */
 
 #define PF_IDLE			0x00000002	/* I am an IDLE thread */
@@ -52,9 +52,6 @@
 #define PF_FREEZER_SKIP		0x40000000	/* Freezer should not count it as freezable */
 #define PF_SUSPEND_TASK		0x80000000      /* This thread called freeze_processes() and should not be frozen */
 
-/*
- * kernel 4.18
- */
 static uint64_t fa[MAX_PF_NR] = {
 	PF_IDLE,
 	PF_EXITING,
@@ -198,7 +195,11 @@ int main(int argc, char **argv)
 
 	if (argc != 3)
 	{
-		printf("Usage: pf <process flag> <process flag desc> \n");
+		printf("Usage: tpf <numeric process flag> <process flag symbol> \n");
+		printf("Decomposes numeric process flag in sum of process flag symbols (see /usr/src/linux-headers-xxx/include/linux/sched.h) \n"); 
+ 		printf("example: tpf 69238880 PF_KTHREAD \n");
+		printf("69238880 =  32 (PF_WQ_WORKER) +  64 (PF_FORKNOEXEC) +  32768 (PF_NOFREEZE) +  2097152 (PF_KTHREAD) +  67108864 (PF_NO_SETAFFINITY)\n");		printf("PF_KTHREAD found in process flag \n");
+
 		exit(1);
 	}
 	errno = 0;
@@ -232,9 +233,7 @@ int main(int argc, char **argv)
 		exit (1);
 	}
 
-	if (check_process_flag(u64, i) == 1)
-		printf("%s found \n", argv[2]);
-	else
+	if (check_process_flag(u64, i) != 1)
 		printf("%s not found \n", argv[2]);
 
 }
