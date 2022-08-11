@@ -5,10 +5,9 @@
 *
 * static int example_handler(request_rec *r)
 * {
-*   /*~~~~~~~~~~~~~~~~~~~~~~*/
+*   
 *    keyValuePair *formData;
-*    /*~~~~~~~~~~~~~~~~~~~~~~*/
-*
+*   
 *    formData = readPost(r);
 *    if (formData) {
 *        int i;
