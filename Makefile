@@ -1,4 +1,4 @@
-all:  tpf htob vd tetrad taio tsem tshm
+all:  tpf htob vd tetrad taio tsem tshm tal
 tpf: tpf.c
 	$(CC) -std=gnu99 -Wall -o $@ $<
 htob: htob.c
@@ -16,4 +16,4 @@ tshm: tshm.c
 tal: tal.c
 	$(CC) -std=gnu99 -Wall -o $@ $< 
 clean: 
-	rm -f htob vd tetrad taio tsem tshm tpf
+	rm -f htob vd tetrad taio tsem tshm tpf tal

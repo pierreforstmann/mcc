@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main(int argc, char **argv)
 {
@@ -39,13 +40,14 @@ int main(int argc, char **argv)
         int n = 3;
         int i;
 
-        ps = (s *)malloc(sizeof(s) * n);
+        ps = (s *)malloc(sizeof(s) * (n + 1));
+	memset((void *)ps, '\0', sizeof(s) * (n +1));
         ps[0].c = 0;
         ps[1].c = 1;
         ps[2].c = 2;
 
         for ( i = 0 ; &ps[i] ; i++)
-                printf("i=%d ps[i]=%d \n", i, ps[i].c);
+                printf("&ps[%d]=%p ps[%d].c=%d \n", i, &ps[i], i, ps[i].c);
 
         exit(0);
 }
