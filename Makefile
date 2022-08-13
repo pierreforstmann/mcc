@@ -14,6 +14,6 @@ tsem: tsem.c
 tshm: tshm.c
 	$(CC) -std=gnu99 -Wall -o $@ $< 
 tal: tal.c
-	$(CC) -std=gnu99 -Wall -o $@ $< 
+	$(CC) -std=c11 -Wall -o $@ $< 
 clean: 
 	rm -f htob vd tetrad taio tsem tshm tpf tal
