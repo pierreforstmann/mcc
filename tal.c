@@ -50,11 +50,22 @@ int main(int argc, char **argv)
         ps[1].cs = s2;
         ps[2].cs = s3;
 
+	printf("\nEnter loop with &ps[i] ... \n");
         for ( i = 0 ; &ps[i] ; i++) {
                 printf("&ps[%d]=%p ps[%d].cs=%s \n", 
 			i, &ps[i], i, ps[i].cs);
 		if (ps[i].cs == NULL) {
-			printf("Exiting loop because ps[i].cs == NULL \n");
+		    printf("... Exiting loop because ps[%d].cs == NULL \n", i);
+			break;
+		}
+	}
+
+	printf("\nEnter loop with empty condition ... \n");
+        for ( i = 0 ;  ; i++) {
+                printf("&ps[%d]=%p ps[%d].cs=%s \n", 
+			i, &ps[i], i, ps[i].cs);
+		if (ps[i].cs == NULL) {
+		    printf("... Exiting loop because ps[%d].cs == NULL \n", i);
 			break;
 		}
 	}
