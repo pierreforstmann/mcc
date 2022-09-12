@@ -50,7 +50,7 @@ int main(int argc, char **argv)
         ps[1].cs = s2;
         ps[2].cs = s3;
 
-	printf("\nEnter loop with &ps[i] ... \n");
+	printf("\nEnter loop with condition: &ps[i] ... \n");
         for ( i = 0 ; &ps[i] ; i++) {
                 printf("&ps[%d]=%p ps[%d].cs=%s \n", 
 			i, &ps[i], i, ps[i].cs);
