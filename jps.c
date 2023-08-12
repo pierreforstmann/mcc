@@ -1,6 +1,12 @@
 /*
-jpr
-*/
+ * Jurassic Park System
+ *
+ * jps.c
+ *
+ * Copyright Pierre Forstmann 2023.
+ *
+ *  
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
