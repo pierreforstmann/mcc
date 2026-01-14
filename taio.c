@@ -42,7 +42,7 @@ inline int io_getevents(aio_context_t ctx, long min_nr, long max_nr,
 /*
  * size must match
  */
-#define IO_SIZE 10 
+#define IO_SIZE 20 
 
 int main(int argc, char *argv[]) {
 	aio_context_t ctx;
