@@ -1,5 +1,6 @@
 #include <sys/utsname.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <liburing.h>
 
 
@@ -19,6 +20,7 @@ int main(int argc, char **argv)
 	if (probe == NULL) 
 	{
 		printf("probe is not supported!\n");
+		exit(0);
 	}
 	else
 	{
