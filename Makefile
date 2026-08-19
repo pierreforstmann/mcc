@@ -1,4 +1,4 @@
-all:  tu64 tpf htob vd tetrad taio tsem tshm tal jps iu
+all:  tu64 tpf htob vd tetrad taio tsem tshm tal jps iu tl
 tu64: tu64.c
 	$(CC) -std=gnu99 -Wall -o $@ $<
 tpf: tpf.c
@@ -21,5 +21,7 @@ jps: jps.c
 	$(CC) -std=c11 -Wall -o $@ $< 
 iu: iu.c
 	$(CC) -std=gnu99 -Wall -o $@ $< -luring
+tl: tl.c
+	$(CC) -std=c11 -Wall -o $@ $<
 clean: 
-	rm -f htob vd tetrad taio tsem tshm tpf tal tu64 jps iu
+	rm -f htob vd tetrad taio tsem tshm tpf tal tu64 jps iu tl
