@@ -1,4 +1,4 @@
-all:  tu64 tpf htob vd tetrad taio tsem tshm tal jps iu tl
+all:  tu64 tpf htob vd tetrad taio tsem tshm tal jps iu tl uring_rw_status_nf uring_rw_status_wf
 tu64: tu64.c
 	$(CC) -std=gnu99 -Wall -o $@ $<
 tpf: tpf.c
@@ -23,5 +23,9 @@ iu: iu.c
 	$(CC) -std=gnu99 -Wall -o $@ $< -luring
 tl: tl.c
 	$(CC) -std=c11 -Wall -o $@ $<
+uring_rw_status_nf: uring_rw_status.c
+	$(CC) -std=gnu99 -Wall -o $@ $< -luring
+uring_rw_status_wf: uring_rw_status.c
+	$(CC) -std=gnu99 -Wall -o $@ $< -luring -D HAVE_IO_URING_OPCODE_SUPPORTED
 clean: 
-	rm -f htob vd tetrad taio tsem tshm tpf tal tu64 jps iu tl
+	rm -f htob vd tetrad taio tsem tshm tpf tal tu64 jps iu tl uring_rw_status uring_rw_status_wf uring_rw_status_nf
