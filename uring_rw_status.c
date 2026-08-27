@@ -67,7 +67,7 @@ is_uring_read_write_unsupported(void)
         {
             unsupported = true;
         }
-	if (!io_uring_opcode_supported(test_probe, IORING_OP_READ) ||
+	else if (!io_uring_opcode_supported(test_probe, IORING_OP_READ) ||
 		!io_uring_opcode_supported(test_probe, IORING_OP_WRITE) ||
 		!io_uring_opcode_supported(test_probe, IORING_OP_READV) ||
 		!io_uring_opcode_supported(test_probe, IORING_OP_WRITEV))

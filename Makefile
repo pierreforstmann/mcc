@@ -24,8 +24,8 @@ iu: iu.c
 tl: tl.c
 	$(CC) -std=c11 -Wall -o $@ $<
 uring_rw_status_nf: uring_rw_status.c
-	$(CC) -std=gnu99 -Wall -o $@ $< -luring
+	$(CC) -std=gnu99 -Wall -g -o $@ $< -luring
 uring_rw_status_wf: uring_rw_status.c
-	$(CC) -std=gnu99 -Wall -o $@ $< -luring -D HAVE_IO_URING_OPCODE_SUPPORTED
+	$(CC) -std=gnu99 -Wall -g -o $@ $< -luring -D HAVE_IO_URING_OPCODE_SUPPORTED
 clean: 
 	rm -f htob vd tetrad taio tsem tshm tpf tal tu64 jps iu tl uring_rw_status uring_rw_status_wf uring_rw_status_nf
